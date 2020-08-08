@@ -5,7 +5,8 @@ import Person from '../components/Person/Person'
 
 class Persons extends Component {
   state = {
-    persons: []
+    personsName : '',
+    personAge : ''
   }
 
   // personAddedHandler = () => {
@@ -25,11 +26,23 @@ class Persons extends Component {
   //   })
   // }
 
+  onAddPerson = () => {
+    if (this.state.personsName && this.state.personAge){
+      this.props.onAdd(this.state.personsName,this.state.personAge)
+    }
+  }
+//   handleChange = (eventName) => {
+//     this.setState({ personsName: eventName.target.value })
+//     this.setState({ personAge: eventName.target.value })
+// }
+
   render() {
     return (
       <div>
-        <AddPerson personAdded={this.props.onAdd} />
+        <AddPerson personAdded={()=>{this.props.onAdd(this.state.personsName,this.state.personAge)}} />
         {console.log(this.props.per)}
+        <input placeholder='Add Person Name'  name = 'personname' value = {this.state.personsName} onChange = {(e)=>{this.setState({personsName : e.target.value})}} /> &nbsp;&nbsp;
+        <input placeholder='Add Person Age'  name = 'personage' value = {this.state.personAge} onChange = {(e)=>{this.setState({personAge : e.target.value})}} />
         {
           this.props.per.map(person => (
             <Person
@@ -40,8 +53,7 @@ class Persons extends Component {
             />
           ))
         }
-        <input placeholder='Add Person Name' text='Name' /> &nbsp;&nbsp;
-        <input placeholder='Add Person Age' text='Age' />
+        {console.log(this.props.per)}
       </div>
     )
   }
@@ -56,10 +68,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
    
-    onAdd: () => dispatch({ type: "ADD_PERSON", value: {
+    onAdd: (name,age) => dispatch({ type: "ADD_PERSON", value: {
       id: Math.random(), // not realy unique but good enough here
-      name: 'John',
-      age: Math.floor(Math.random() * 40)
+      name: name,
+      age: age
     } }),
 
     onRemove: (personId) =>  dispatch({ type: "REMOVE_PERSON", value: personId
