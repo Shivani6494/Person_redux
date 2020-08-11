@@ -27,7 +27,18 @@ class Persons extends Component {
   // }
 
   onAddPerson = () => {
-    if (this.state.personsName && this.state.personAge){
+    if (this.state.personsName === "" )
+    {
+      alert ("Person name required...")
+      return false
+    }
+    else if (this.state.personAge === "" )
+    {
+      alert ("Person Age required...")
+      return false
+    }
+    else
+    {
       this.props.onAdd(this.state.personsName,this.state.personAge)
     }
   }
@@ -39,7 +50,7 @@ class Persons extends Component {
   render() {
     return (
       <div>
-        <AddPerson personAdded={()=>{this.props.onAdd(this.state.personsName,this.state.personAge)}} />
+        <AddPerson personAdded={()=>{this.onAddPerson()}} />
         {console.log(this.props.per)}
         <input placeholder='Add Person Name'  name = 'personname' value = {this.state.personsName} onChange = {(e)=>{this.setState({personsName : e.target.value})}} /> &nbsp;&nbsp;
         <input placeholder='Add Person Age'  name = 'personage' value = {this.state.personAge} onChange = {(e)=>{this.setState({personAge : e.target.value})}} />
